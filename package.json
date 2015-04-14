@@ -26,14 +26,18 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "npm test"
+    "test": "./node_modules/mocha/bin/mocha test/*_test.js -G -w --require co-mocha --reporter spec --slow 500"
   },
   "devDependencies": {
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-nodeunit": "~0.1.2",
-    "grunt-contrib-watch": "~0.2.0"
+    "mocha": "^1.18.2",
+    "mocha-clean": "^0.4.0",
+    "mocha-sinon": "^1.1.4",
+    "sinon": "^1.12.2",
+    "assert-dir-equal": "^1.0.1",
+    "co-mocha": "^1.1.0",
+    "chai": "^2.2.0"
   },
-  "keywords": [],
+  "keywords": ["plugins", "ware", "plugin"],
   "dependencies": {
     "grunt-cli": "^0.1.13",
     "gextend": "^0.1.6"
