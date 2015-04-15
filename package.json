@@ -1,7 +1,7 @@
 {
   "name": "in",
   "description": "Plugin loader. Plays with Ware",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "homepage": "https://github.com/goliatone/in",
   "author": {
     "name": "goliatone",
