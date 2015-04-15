@@ -26,7 +26,8 @@
     "node": ">= 0.10.0"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/*_test.js -G -w --require co-mocha --reporter spec --slow 500"
+    "test": "./node_modules/mocha/bin/mocha test/*_test.js",
+    "devtest": "./node_modules/mocha/bin/mocha test/*_test.js -G -w --require co-mocha --reporter spec --slow 500"
   },
   "devDependencies": {
     "mocha": "^1.18.2",
