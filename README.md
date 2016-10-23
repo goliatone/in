@@ -49,16 +49,16 @@ module.exports.priority = 5000;
 
 A plugin is nothing more than a regular Node module. By default, we expect plugins to expose an `init` function that takes two arguments:
 
-* [context][#context]
+* [context](#context)
 * config
 
 ### constructor options
 
-* [context][#context]
-* [basepath][#basepath]
-* [normalize][#normalizeplugins]
-* [mountHandler][#mounthandler]
-* [sortFilter][#sortfilter]
+* [context](#context)
+* [basepath](#basepath)
+* [normalize](#normalizeplugins)
+* [mountHandler](#mounthandler)
+* [sortFilter](#sortfilter)
 
 ### context
 This is where all plugins will be mounted. This would normally be your application instance.
@@ -66,7 +66,7 @@ This is where all plugins will be mounted. This would normally be your applicati
 ### mountDirectory(directory,options,context)
 It will mount all plugins found in directory into the provided context.
 
-This is in effect applying [find][#finddirectory], [filter][#filterplugins], [load][#loadplugins-options], [sort][#sortplugins], and [mount][#mount] in that order.
+This is in effect applying [find](#finddirectory), [filter](#filterplugins), [load](#loadplugins-options), [sort](#sortplugins), and [mount](#mount) in that order.
 
 ### find(directory)
 
