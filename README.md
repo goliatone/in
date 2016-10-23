@@ -9,15 +9,15 @@ Generic plugin loader facility.
 	- [Documentation](#documentation)
 		- [constructor options](#constructor-options)
 		- [context](#context)
-		- [mountDirectory(directory, options= {}, context=this.context)](#mountdirectorydirectory-options-contextthiscontext)
+		- [mountDirectory(directory, options= {}, context=this.context)](#mountdirectorydirectory-options--contextthiscontext)
 		- [find(directory)](#finddirectory)
 		- [sort(plugins)](#sortplugins)
 			- [sortFilter](#sortfilter)
 		- [normalize(plugins)](#normalizeplugins)
-			- [String:](#string)
-			- [Array:](#array)
-			- [Object:](#object)
-			- [Mixed:](#mixed)
+			- [String](#string)
+			- [Array](#array)
+			- [Object](#object)
+			- [Mixed](#mixed)
 		- [filter(plugins)](#filterplugins)
 		- [load(plugins, options={})](#loadplugins-options)
 		- [mount](#mount)
@@ -89,22 +89,22 @@ function _sortFilter(a, b) {
 ### normalize(plugins)
 When we call load we apply the `normalize` function which will ensures that `plugins` can be any of the following:
 
-#### String:
+#### String
 ```js
 var plugins = '/Users/application/plugins/authentication';
 ```
-#### Array:
+#### Array
 ```js
 var plugins = ['/Users/application/plugins/authentication'];
 ```
-#### Object:
+#### Object
 ```js
 var plugins = {
     '/Users/application/plugins/authentication': {hash: 'sh1'}
 };
 ```
 
-#### Mixed:
+#### Mixed
 ```js
 var plugins = [
     {'/Users/application/plugins/authentication':{hash:'sh1'}},
