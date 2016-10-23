@@ -28,14 +28,14 @@ A plugin is nothing more than a regular Node module.
 
 * [context][#context]
 * [`basepath`][#basepath]
-* [`normalize`][#normalize]
-* [`mountHandler`][#mountHandler]
-* [`sortFilter`][#sortFilter]
+* [`normalize`][#normalizeplugins]
+* [`mountHandler`][#mounthandler]
+* [`sortFilter`][#sortfilter]
 
 ### mountDirectory(directory, options= {}, context=this.context)
 It will mount all plugins found in directory into the provided context.
 
-This is in effect applying [find][#find], [filter][#filter], [load][#load], and [mount][#mount] in that order.
+This is in effect applying [find][#finddirectory], [filter][#filterplugins], [load][#loadplugins-options], [sort][#sortplugins], and [mount][#mount] in that order.
 
 ### find(directory)
 
@@ -45,6 +45,7 @@ It `target` is not an absolute path, we resolve it against `basepath`.
 ### sort(plugins)
 Sorts an array of plugins after they have been loaded. By default it uses `sortFilter`:
 
+#### sortFilter
 ```js
 function _sortFilter(a, b) {
     //this assumes we have right plugin structure :)
