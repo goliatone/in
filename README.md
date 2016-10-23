@@ -82,10 +82,7 @@ Sorts an array of plugins after they have been loaded. By default it uses `sortF
 #### sortFilter
 ```js
 function _sortFilter(a, b) {
-    //this assumes we have right plugin structure :)
-    var ap = a.plugin.priority === undefined ? 0 : a.plugin.priority;
-    var bp = b.plugin.priority === undefined ? 0 : b.plugin.priority;
-    return ap < bp ? -1 : 1;
+	return a.priority < b.priority ? -1 : 1;
 }
 ```
 
@@ -96,25 +93,83 @@ When we call load we apply the `normalize` function which will ensures that `plu
 ```js
 var plugins = '/Users/application/plugins/authentication';
 ```
+
+Output after calling `normalize`:
+
+```js
+[
+    {
+        "id": "authentication",
+        "path": "/Users/application/plugins/authentication",
+        "config": {}
+    }
+]
+```
+
 #### Array
 ```js
 var plugins = ['/Users/application/plugins/authentication'];
 ```
+
+Output after calling `normalize`:
+
+```js
+[
+    {
+        "id": "authentication",
+        "path": "/Users/application/plugins/authentication",
+        "config": {}
+    }
+]
+```
+
 #### Object
 ```js
 var plugins = {
-    '/Users/application/plugins/authentication': {hash: 'sh1'}
+    '/Users/application/plugins/authentication': { hash: 'sh1' }
 };
+```
+
+Output after calling `normalize`:
+
+```js
+[
+    {
+        "id": "authentication",
+        "path": "/Users/application/plugins/authentication",
+        "config": {
+            "hash": "sh1"
+        }
+    }
+]
 ```
 
 #### Mixed
 ```js
 var plugins = [
-    {'/Users/application/plugins/authentication':{hash:'sh1'}},
+    {'/Users/application/plugins/authentication':{ hash: 'sh1' }},
     'debug'
 ];
 ```
 
+Output after calling `normalize`:
+
+```js
+[
+    {
+        "id": "authentication",
+        "path": "/Users/application/plugins/authentication",
+        "config": {
+            "hash": "sh1"
+        }
+    },
+    {
+        "id": "debug",
+        "path": "debug",
+        "config": {}
+    }
+]
+```
 ### filter(plugins)
 
 Public: Apply `minimatch` patterns against `paths`, an array of paths. The default pattern is `['**', '!node_modules', '!.git']`
@@ -141,8 +196,12 @@ Makes plugins available to the provided context by calling `mountHandler` to pre
 Adds a `plugin` to the provided `context`.
 ```js
 function _mount(bean, context, config={}){
-    config = extend({}, bean.config, config);
-    return bean.plugin.init(context, config);
+	config = extend({}, bean.config, config);
+	var plugin = bean.plugin;
+	if(typeof bean.config === 'function') return bean.config(plugin, context, config);
+	if(typeof bean.config.mount === 'function') return bean.config.mount(plugin, context, config);
+	if(typeof plugin.init === 'function') return plugin.init(context, config);
+	return context[bean.id] = plugin;
 }
 ```
 
