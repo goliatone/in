@@ -1,17 +1,50 @@
 # in
 
-Plugin loader. Plays with Ware
+Generic plugin loader facility.
 
 ## Getting Started
 Install the module with: `npm install in`
 
 ```javascript
 var in = require('in');
-in.awesome(); // "awesome"
 ```
 
+A plugin should expose a `init` function.
+```js
+module.exports.init = function(app, config){};
+```
+
+A module can expose a `priority` value:
+```js
+module.exports.priority = 5000;
+```
+
+
 ## Documentation
-_(Coming soon)_
+
+### find
+Scan directory for plugins, either as javascript files or under a subdirectory. If in a subdirectory, it will look for an `index.js` file.
+
+### sort
+
+### normalize
+
+### filter
+
+### load
+
+```javascript
+{
+    id: 'logger',
+    path: '/Users/in/examples/plugins/logger.js',
+    config: {},
+    plugin: { init: [Function], priority: -100 },
+    isLocal: true
+}
+```
+
+### mount
+
 
 ## Examples
 _(Coming soon)_
