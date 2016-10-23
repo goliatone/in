@@ -12,15 +12,15 @@ var paths = [
 var mixed = [
     '/Users/application/plugins/authentication',
     '/Users/application/plugins/logger.js',
-    {'/Users/application/plugins/pubsub.js':{endpoing: 'URL', admin:'admin', pass:'pass'}},
+    {'/Users/application/plugins/pubsub.js':{ endpoing: 'URL', admin: 'admin', pass: 'pass' }},
     'debug'
 ];
 
 var obj = {
-    '/Users/application/plugins/authentication':{hash:'sh1'},
-    '/Users/application/plugins/logger.js': {level:'info'},
-    '/Users/application/plugins/pubsub.js': {endpoing: 'URL', admin:'admin', pass:'pass'},
-    'debug':{}
+    '/Users/application/plugins/authentication':{ hash: 'sh1'},
+    '/Users/application/plugins/logger.js': { level: 'info'},
+    '/Users/application/plugins/pubsub.js': { endpoing: 'URL', admin: 'admin', pass: 'pass'},
+    'debug': {}
 };
 
 console.log(JSON.stringify(normalize(paths), null, 4));
