@@ -23,6 +23,7 @@ Generic plugin loader facility.
 		- [load(plugins, options={})](#loadplugins-options)
 		- [mount](#mount)
 		- [mountHandler](#mounthandler)
+		- [afterMount(context)](#aftermountcontext)
 	- [Examples](#examples)
 	- [Release History](#release-history)
 	- [License](#license)
@@ -62,6 +63,7 @@ A plugin is nothing more than a regular Node module. By default, we expect plugi
 * [normalize](#normalizeplugins)
 * [mountHandler](#mounthandler)
 * [sortFilter](#sortfilter)
+* [afterMount](#aftermountcontext)
 
 ### context
 This is where all plugins will be mounted. This would normally be your application instance.
@@ -205,6 +207,9 @@ function _mount(bean, context, config={}){
 }
 ```
 
+### afterMount(context)
+Function that will be called right after `mount`
+
 ## Examples
 Look at the [examples][examples] directory. Run it with `node examples/index.js`.
 
@@ -253,6 +258,7 @@ module.exports.priority = -100;
     * Added examples
     * Added documentation
     * Added `mountDirectory`
+* 2016-10-24: v0.5.0 Added afterMount
 
 ## License
 Copyright (c) 2015 goliatone  
