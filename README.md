@@ -2,6 +2,7 @@
 
 Generic plugin loader facility.
 
+
 <!-- toc orderedList:0 -->
 
 - [in](#in)
@@ -9,7 +10,7 @@ Generic plugin loader facility.
 	- [Documentation](#documentation)
 		- [constructor options](#constructor-options)
 		- [context](#context)
-		- [mountDirectory(directory, options= {}, context=this.context)](#mountdirectorydirectory-options--contextthiscontext)
+		- [mountDirectory(directory,options,context)](#mountdirectorydirectoryoptionscontext)
 		- [find(directory)](#finddirectory)
 		- [sort(plugins)](#sortplugins)
 			- [sortFilter](#sortfilter)
@@ -27,6 +28,7 @@ Generic plugin loader facility.
 	- [License](#license)
 
 <!-- tocstop -->
+
 
 ## Getting Started
 Install the module with: `npm install in`
