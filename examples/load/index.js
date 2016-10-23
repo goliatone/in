@@ -13,9 +13,7 @@ app.on('plugins.ready', function(){
 const manager = new PluginLoader({
     context: app,
     basepath: __dirname,
-    afterMount: function(context){
-        context.emit('plugins.ready');
-    }
+    afterMount: (context) => context.emit('plugins.ready')
 });
 
 manager.find('./plugins').then((plugins) => {
@@ -23,7 +21,7 @@ manager.find('./plugins').then((plugins) => {
         'debug': function(plugin, context, options){
         context.debug = plugin('in-load');
     }});
-    
+
     return manager.load(plugins);
 })
 .then((plugins)=>{
