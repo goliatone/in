@@ -1,4 +1,4 @@
-const PluginManager = require('..');
+const PluginLoader = require('..');
 const EventEmitter = require('events');
 
 
@@ -8,7 +8,7 @@ app.on('plugins.ready', function(){
     app.logger.info('Application plugins loaded');
 });
 
-const manager = new PluginManager({
+const manager = new PluginLoader({
     context: app,
     basepath: __dirname,
 });
