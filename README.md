@@ -46,6 +46,7 @@ A module can expose a `priority` value:
 ```js
 module.exports.priority = 5000;
 ```
+A negative value indicates a higher priority
 
 ## Documentation
 
@@ -189,7 +190,10 @@ module.exports.priority = -100;
 ```
 
 ## Release History
-_(Nothing yet)_
+* 2016-10-23: v0.4.0 Mayor update
+    * Added examples
+    * Added documentation
+    * Added `mountDirectory`
 
 ## License
 Copyright (c) 2015 goliatone  
