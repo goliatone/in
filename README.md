@@ -235,14 +235,14 @@ app.on('plugins.ready', function(){
 const manager = new PluginManager({
     context: app,
     basepath: __dirname,
+	afterMount: (context) => context.emit('plugins.ready')
 });
 
 manager.mountDirectory('./plugins')
-    .then((context) => {
-        context.emit('plugins.ready');
-    })
     .catch(console.error);
 ```
+
+`logger.js`:
 
 ```js
 module.exports.init = function(app, config){
@@ -252,6 +252,57 @@ module.exports.init = function(app, config){
 
 module.exports.priority = -100;
 ```
+
+`repl.js`:
+```js
+module.exports.init = function(app, config){
+
+    app.repl = {
+        context: {app}
+    };
+
+    app.logger.info('Plugin REPL loaded!');
+};
+
+```
+
+`pubsub.js`:
+```js
+module.exports.init = function(app, config){
+    app.pubsub = {
+        publibsh: function(type, event){
+            app.logger.warn('publish: %s. payload: %s', type, event);
+        },
+        subscribe: function(type, handler){
+            app.logger.warn('subscribe to %s', type);
+        }
+    };
+    app.logger.info('Plugin pubsub loaded!');
+};
+```
+
+`authentication/index.js`:
+```js
+module.exports.init = function(app, config){
+    app.auth = {
+        check: function(){}
+    };
+    app.logger.info('Plugin auth loaded!');
+};
+
+module.exports.priority = 500;
+```
+
+`node examples/load/index.js`:
+
+```
+Plugin logger loaded!
+Plugin REPL loaded!
+Plugin pubsub loaded!
+Plugin auth loaded!
+Application plugins loaded
+```
+
 
 ## Release History
 * 2016-10-23: v0.4.0 Mayor update
