@@ -2,11 +2,37 @@
 
 Generic plugin loader facility.
 
+<!-- toc orderedList:0 -->
+
+- [in](#in)
+	- [Getting Started](#getting-started)
+	- [Documentation](#documentation)
+		- [constructor options](#constructor-options)
+		- [context](#context)
+		- [mountDirectory(directory, options= {}, context=this.context)](#mountdirectorydirectory-options-contextthiscontext)
+		- [find(directory)](#finddirectory)
+		- [sort(plugins)](#sortplugins)
+			- [sortFilter](#sortfilter)
+		- [normalize(plugins)](#normalizeplugins)
+			- [String:](#string)
+			- [Array:](#array)
+			- [Object:](#object)
+			- [Mixed:](#mixed)
+		- [filter(plugins)](#filterplugins)
+		- [load(plugins, options={})](#loadplugins-options)
+		- [mount](#mount)
+		- [mountHandler](#mounthandler)
+	- [Examples](#examples)
+	- [Release History](#release-history)
+	- [License](#license)
+
+<!-- tocstop -->
+
 ## Getting Started
 Install the module with: `npm install in`
 
 ```javascript
-var in = require('in');
+var PluginLoader = require('in');
 ```
 
 A plugin should expose a `init` function.
@@ -19,10 +45,12 @@ A module can expose a `priority` value:
 module.exports.priority = 5000;
 ```
 
-
 ## Documentation
 
-A plugin is nothing more than a regular Node module.
+A plugin is nothing more than a regular Node module. By default, we expect plugins to expose an `init` function that takes two arguments:
+
+* [context][#context]
+* config
 
 ### constructor options
 
@@ -31,6 +59,9 @@ A plugin is nothing more than a regular Node module.
 * [`normalize`][#normalizeplugins]
 * [`mountHandler`][#mounthandler]
 * [`sortFilter`][#sortfilter]
+
+### context
+This is where all plugins will be mounted. This would normally be your application instance.
 
 ### mountDirectory(directory, options= {}, context=this.context)
 It will mount all plugins found in directory into the provided context.
