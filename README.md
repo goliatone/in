@@ -55,15 +55,15 @@ A plugin is nothing more than a regular Node module. By default, we expect plugi
 ### constructor options
 
 * [context][#context]
-* [`basepath`][#basepath]
-* [`normalize`][#normalizeplugins]
-* [`mountHandler`][#mounthandler]
-* [`sortFilter`][#sortfilter]
+* [basepath][#basepath]
+* [normalize][#normalizeplugins]
+* [mountHandler][#mounthandler]
+* [sortFilter][#sortfilter]
 
 ### context
 This is where all plugins will be mounted. This would normally be your application instance.
 
-### mountDirectory(directory, options= {}, context=this.context)
+### mountDirectory(directory,options,context)
 It will mount all plugins found in directory into the provided context.
 
 This is in effect applying [find][#finddirectory], [filter][#filterplugins], [load][#loadplugins-options], [sort][#sortplugins], and [mount][#mount] in that order.
