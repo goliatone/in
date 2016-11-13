@@ -3,8 +3,8 @@ var normalize = require('..').normalize;
 
 var paths = [
     '/Users/application/plugins/authentication',
-    '/Users/application/plugins/logger.js',
-    '/Users/application/plugins/pubsub.js',
+    './logger.js',
+    './pubsub.js',
     'debug'
 ];
 
@@ -24,5 +24,5 @@ var obj = {
 };
 
 console.log(JSON.stringify(normalize(paths), null, 4));
-console.log(JSON.stringify(normalize(mixed), null, 4));
-console.log(JSON.stringify(normalize(obj), null, 4));
+// console.log(JSON.stringify(normalize(mixed), null, 4));
+// console.log(JSON.stringify(normalize(obj), null, 4));
