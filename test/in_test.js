@@ -206,4 +206,26 @@ describe('in: Plugin loader', function(){
             });
         });
     });
+
+    describe('∆ mount', function(){
+        it.only('should mount plugins in a given directory', function(done){
+            var loader = new Plugin({
+                basepath: __dirname
+            });
+            var paths = [
+                './fixtures/mountDirectory/plugins/authentication',
+                './fixtures/mountDirectory/plugins/logger.js',
+                './fixtures/mountDirectory/plugins/pubsub.js',
+                './fixtures/mountDirectory/plugins/repl.js'
+            ];
+
+            loader.load(paths).then((plugins)=>{
+                console.log(plugins);
+                loader.mount(plugins).then((plugins)=>{
+                    assert.deepEqual(expected, plugins);
+                    done()
+                }).catch(done);
+            });
+        });
+    });
 });
