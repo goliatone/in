@@ -231,5 +231,57 @@ describe('in: Plugin loader', function(){
                 }).catch(done);
             });
         });
+
+        it('should mount plugins in a given directory using mountHandler', function(done){
+            var loader = new Plugin({
+                basepath: __dirname,
+                mountHandler: function _mount(bean, context){
+                    return bean.plugin;
+                },
+            });
+            var paths = [
+                './fixtures/mountDirectory/plugins/authentication',
+                './fixtures/mountDirectory/plugins/logger.js',
+                './fixtures/mountDirectory/plugins/pubsub.js',
+                './fixtures/mountDirectory/plugins/repl.js'
+            ];
+
+            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+
+            loader.load(paths).then((plugins)=>{
+                loader.mount(plugins).then((_)=>{
+                    var res = [];
+                    plugins.map((plugin)=> res.push(plugin.id));
+                    assert.deepEqual(expected, res);
+                    done()
+                }).catch(done);
+            });
+        });
+
+        it('should mount plugins in a given directory using mountHandler', function(done){
+            var loader = new Plugin({
+                basepath: __dirname,
+                mountHandler: function _mount(bean, context){
+                    return bean.plugin;
+                },
+            });
+            var paths = [
+                './fixtures/mountDirectory/plugins/authentication',
+                './fixtures/mountDirectory/plugins/logger.js',
+                './fixtures/mountDirectory/plugins/pubsub.js',
+                './fixtures/mountDirectory/plugins/repl.js'
+            ];
+
+            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+
+            loader.load(paths).then((plugins)=>{
+                loader.mount(plugins, {}).then((_)=>{
+                    var res = [];
+                    plugins.map((plugin)=> res.push(plugin.id));
+                    assert.deepEqual(expected, res);
+                    done()
+                }).catch(done);
+            });
+        });
     });
 });
