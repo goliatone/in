@@ -1,3 +1,4 @@
+/*jshint esversion:6*/
 'use strict';
 
 var Plugin = require('../index');
@@ -208,7 +209,7 @@ describe('in: Plugin loader', function(){
     });
 
     describe('∆ mount', function(){
-        it.only('should mount plugins in a given directory', function(done){
+        it('should mount plugins in a given directory', function(done){
             var loader = new Plugin({
                 basepath: __dirname
             });
@@ -219,10 +220,13 @@ describe('in: Plugin loader', function(){
                 './fixtures/mountDirectory/plugins/repl.js'
             ];
 
+            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+
             loader.load(paths).then((plugins)=>{
-                console.log(plugins);
-                loader.mount(plugins).then((plugins)=>{
-                    assert.deepEqual(expected, plugins);
+                loader.mount(plugins).then((_)=>{
+                    var res = [];
+                    plugins.map((plugin)=> res.push(plugin.id));
+                    assert.deepEqual(expected, res);
                     done()
                 }).catch(done);
             });
