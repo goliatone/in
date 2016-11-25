@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports.init = function(app, config){
-    app.logger = console;
+    var NOOP = function(){};
+    app.logger = {info: NOOP};
     app.logger.info('Plugin logger loaded!');
 };
 
