@@ -180,7 +180,7 @@ describe('in: Plugin loader', function(){
 
                 loader.find('./fixtures/mountDirectory/plugins').then((plugins)=>{
                     plugins = plugins.map((plugin) => require('path').basename(plugin));
-                    assert.deepEqual(expected, plugins);
+                    assert.deepEqual(plugins, expected);
                     done()
                 }).catch(done);
             });
@@ -203,7 +203,7 @@ describe('in: Plugin loader', function(){
                 ];
 
                 loader.filter(paths, ['**', '!*.js']).then((plugins)=>{
-                    assert.deepEqual(expected, plugins);
+                    assert.deepEqual(plugins, expected);
                     done()
                 }).catch(done);
             });
@@ -228,7 +228,7 @@ describe('in: Plugin loader', function(){
                 loader.mount(plugins).then((_)=>{
                     var res = [];
                     plugins.map((plugin)=> res.push(plugin.id));
-                    assert.deepEqual(expected, res);
+                    assert.deepEqual(res, expected);
                     done()
                 }).catch(done);
             });
@@ -355,7 +355,7 @@ describe('in: Plugin loader', function(){
 
             var result = loader.sort(plugins);
 
-            assert.deepEqual(expected, result);
+            assert.deepEqual(result, expected);
         });
 
         it('should order paths based on dependencies', function(done){
@@ -379,7 +379,7 @@ describe('in: Plugin loader', function(){
 
             loader.load(paths).then((plugins)=>{
                 var result = plugins.map((plugin) => plugin.id);
-                assert.deepEqual(expected, result);
+                assert.deepEqual(result, expected);
                 done();
             }).catch(done);
         });
