@@ -1,7 +1,7 @@
 /*jshint esversion:6*/
 'use strict';
 
-var Plugin = require('../index');
+var Plugin = require('..');
 
 var fs = require('fs');
 var sinon = require('sinon');
@@ -147,6 +147,8 @@ describe('in: Plugin loader', function(){
 
         describe('∆ sortFilter', function(){
             it('default sortFilter should sort based on negative priority', function(){
+                var loader = new Plugin();
+
                 var plugins = [
                     {id: 'a', priority: -100},
                     {id: 'c', priority: 100},
@@ -158,7 +160,7 @@ describe('in: Plugin loader', function(){
                     {id: 'c', priority: 100},
                 ];
 
-                plugins.sort(Plugin.DEFAULTS.sortFilter);
+                loader.sort(plugins);
                 assert.deepEqual(plugins, expected);
             });
         });
@@ -178,7 +180,7 @@ describe('in: Plugin loader', function(){
 
                 loader.find('./fixtures/mountDirectory/plugins').then((plugins)=>{
                     plugins = plugins.map((plugin) => require('path').basename(plugin));
-                    assert.deepEqual(expected, plugins);
+                    assert.deepEqual(plugins, expected);
                     done()
                 }).catch(done);
             });
@@ -201,7 +203,7 @@ describe('in: Plugin loader', function(){
                 ];
 
                 loader.filter(paths, ['**', '!*.js']).then((plugins)=>{
-                    assert.deepEqual(expected, plugins);
+                    assert.deepEqual(plugins, expected);
                     done()
                 }).catch(done);
             });
@@ -226,7 +228,7 @@ describe('in: Plugin loader', function(){
                 loader.mount(plugins).then((_)=>{
                     var res = [];
                     plugins.map((plugin)=> res.push(plugin.id));
-                    assert.deepEqual(expected, res);
+                    assert.deepEqual(res, expected);
                     done()
                 }).catch(done);
             });
@@ -276,8 +278,6 @@ describe('in: Plugin loader', function(){
                 './fixtures/mountDirectory/plugins/repl.js'
             ];
 
-            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
-
             loader.load(paths).then((plugins)=>{
                 loader.mount(plugins).then((_)=>{
                     assert.ok(spy.calledOnce);
@@ -285,6 +285,7 @@ describe('in: Plugin loader', function(){
                 }).catch(done);
             }).catch(done);
         });
+
         it('should call afterMount passed in options', function(done){
             var spy = sinon.spy();
 
@@ -306,13 +307,80 @@ describe('in: Plugin loader', function(){
                 './fixtures/mountDirectory/plugins/repl.js'
             ];
 
-            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
-
             loader.load(paths).then((plugins)=>{
                 loader.mount(plugins, options).then((_)=>{
                     assert.ok(spy.calledOnce);
                     done();
                 }).catch(done);
+            }).catch(done);
+        });
+    });
+
+    describe('∆ sortByDependencies', function(){
+        it('should sort using dependencies', function(){
+            var loader = new Plugin({
+                sortFilter: require('..').sortByDependencies
+            });
+            var plugins = [ { id: 'authentication',
+                priority: 500,
+                dependencies: ['logger', 'persistence'] },
+              { id: 'logger',
+                priority: -100,
+                dependencies: [] },
+              { id: 'pubsub',
+                priority: 0,
+                dependencies: ['logger'] },
+              { id: 'persistence',
+                priority: 0,
+                dependencies: ['logger'] },
+              { id: 'repl',
+                priority: 0,
+                dependencies: ['logger'] } ];
+
+            var expected = [ { id: 'logger',
+                priority: 5,
+                dependencies: [] },
+                { id: 'persistence',
+                priority: 1,
+                dependencies: [ 'logger' ] },
+                { id: 'authentication',
+                priority: 0,
+                dependencies: [ 'logger', 'persistence' ] },
+                { id: 'pubsub',
+                priority: 0,
+                dependencies: [ 'logger' ] },
+                { id: 'repl',
+                priority: 0,
+                dependencies: [ 'logger' ] } ];
+
+            var result = loader.sort(plugins);
+
+            assert.deepEqual(result, expected);
+        });
+
+        it('should order paths based on dependencies', function(done){
+            var loader = new Plugin({
+                basepath: __dirname,
+                sortFilter: require('..').sortByDependencies,
+                mountHandler: function _mount(bean, context){
+                    return bean.plugin;
+                }
+            });
+
+            var paths = [
+                './fixtures/sortByDependencies/plugins/repl.js',
+                './fixtures/sortByDependencies/plugins/logger.js',
+                './fixtures/sortByDependencies/plugins/pubsub.js',
+                './fixtures/sortByDependencies/plugins/authentication',
+                './fixtures/sortByDependencies/plugins/persistence.js'
+            ];
+
+            var expected = ['logger', 'persistence', 'repl', 'pubsub', 'authentication'];
+
+            loader.load(paths).then((plugins)=>{
+                var result = plugins.map((plugin) => plugin.id);
+                assert.deepEqual(result, expected);
+                done();
             }).catch(done);
         });
     });
