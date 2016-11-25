@@ -49,6 +49,12 @@ module.exports.priority = 5000;
 ```
 A negative value indicates a higher priority
 
+A module can expose a 'dependencies' value:
+
+```js
+module.exports.dependencies = ['logger'];
+```
+
 ## Documentation
 
 A plugin is nothing more than a regular Node module. By default, we expect plugins to expose an `init` function that takes two arguments:
@@ -82,11 +88,20 @@ It `target` is not an absolute path, we resolve it against `basepath`.
 Sorts an array of plugins after they have been loaded. By default it uses `sortFilter`:
 
 #### sortFilter
+It will looks for `module.exports.priority` and sort based on that:
 ```js
-function _sortFilter(a, b) {
-	return a.priority < b.priority ? -1 : 1;
+function _sortFilter(plugins){
+	function filter(a, b) {
+		function p(i){
+			return i.priority === undefined ? 0 : i.priority;
+		}
+		return p(a) < p(b) ? -1 : 1;
+	}
+	return plugins.sort(filter);
 }
 ```
+
+You can also use [sortByDependencies][sortbydependencies], by exposing an array with a module's dependencies.
 
 ### normalize(plugins)
 When we call load we apply the `normalize` function which will ensures that `plugins` can be any of the following:
@@ -316,3 +331,4 @@ Copyright (c) 2015 goliatone
 Licensed under the MIT license.
 
 [examples]: ./examples
+[sortbydependencies]: ./lib/sortbydependencies.js
