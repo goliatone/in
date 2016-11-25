@@ -147,6 +147,8 @@ describe('in: Plugin loader', function(){
 
         describe('∆ sortFilter', function(){
             it('default sortFilter should sort based on negative priority', function(){
+                var loader = new Plugin();
+
                 var plugins = [
                     {id: 'a', priority: -100},
                     {id: 'c', priority: 100},
@@ -158,7 +160,7 @@ describe('in: Plugin loader', function(){
                     {id: 'c', priority: 100},
                 ];
 
-                plugins.sort(Plugin.DEFAULTS.sortFilter);
+                loader.sort(plugins);
                 assert.deepEqual(plugins, expected);
             });
         });
