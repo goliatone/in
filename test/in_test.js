@@ -150,14 +150,14 @@ describe('in: Plugin loader', function(){
                 var loader = new Plugin();
 
                 var plugins = [
-                    {id: 'a', priority: -100},
-                    {id: 'c', priority: 100},
-                    {id: 'b'},
+                    {id: 'a', plugin: { priority: -100}},
+                    {id: 'c', plugin: { priority: 100}},
+                    {id: 'b', plugin:{}},
                 ];
                 var expected = [
-                    {id: 'a', priority: -100},
-                    {id: 'b' },
-                    {id: 'c', priority: 100},
+                    {id: 'a', plugin: { priority: -100}},
+                    {id: 'b' , plugin:{}},
+                    {id: 'c', plugin: { priority: 100}},
                 ];
 
                 loader.sort(plugins);
@@ -323,35 +323,38 @@ describe('in: Plugin loader', function(){
             });
             var plugins = [ { id: 'authentication',
                 priority: 500,
-                dependencies: ['logger', 'persistence'] },
+                plugin: {dependencies: ['logger', 'persistence']}
+                },
               { id: 'logger',
                 priority: -100,
-                dependencies: [] },
+                plugin: { dependencies: []} },
               { id: 'pubsub',
                 priority: 0,
-                dependencies: ['logger'] },
+                plugin: { dependencies: ['logger']} },
               { id: 'persistence',
                 priority: 0,
-                dependencies: ['logger'] },
+                plugin: { dependencies: ['logger'] } },
               { id: 'repl',
                 priority: 0,
-                dependencies: ['logger'] } ];
+                plugin: { dependencies: ['logger']}
+                } ];
 
             var expected = [ { id: 'logger',
                 priority: 5,
-                dependencies: [] },
+                plugin: { dependencies: [] }},
                 { id: 'persistence',
                 priority: 1,
-                dependencies: [ 'logger' ] },
+                plugin: { dependencies: [ 'logger' ] }},
                 { id: 'authentication',
                 priority: 0,
-                dependencies: [ 'logger', 'persistence' ] },
+                plugin: { dependencies: [ 'logger', 'persistence' ] }},
                 { id: 'pubsub',
                 priority: 0,
-                dependencies: [ 'logger' ] },
+                plugin: { dependencies: [ 'logger' ] }},
                 { id: 'repl',
                 priority: 0,
-                dependencies: [ 'logger' ] } ];
+                plugin: { dependencies: [ 'logger' ] }
+            } ];
 
             var result = loader.sort(plugins);
 
