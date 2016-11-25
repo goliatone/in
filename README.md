@@ -333,6 +333,7 @@ Application plugins loaded
 
 
 ## Release History
+
 * 2016-11-24: v0.9.0 Added sortByDependencies
 * 2016-11-18: v0.8.0 Update mount to take in afterMount in options
 * 2016-11-14: v0.7.0 normalizePath use basepath from argument
