@@ -14,6 +14,7 @@ Generic plugin loader facility.
 		- [find(directory)](#finddirectory)
 		- [sort(plugins)](#sortplugins)
 			- [sortFilter](#sortfilter)
+				- [sortByDependencies](#sortbydependencies)
 		- [normalize(plugins)](#normalizeplugins)
 			- [String](#string)
 			- [Array](#array)
@@ -100,8 +101,20 @@ function _sortFilter(plugins){
 	return plugins.sort(filter);
 }
 ```
+##### sortByDependencies
 
-You can also use [sortByDependencies][sortbydependencies], by exposing an array with a module's dependencies.
+The library also exposes a [sortByDependencies][sortbydependencies] filter, which you can use instead of the default `sortFilter`.
+
+```js
+const loader = new PluginLoader({
+    sortFilter: require('in').sortByDependencies
+});
+```
+Modules should expose a `dependencies` array listing the ids of depended modules.
+
+```javascript
+module.exports.dependencies = ['logger', 'persistence'];
+```
 
 ### normalize(plugins)
 When we call load we apply the `normalize` function which will ensures that `plugins` can be any of the following:
@@ -320,6 +333,7 @@ Application plugins loaded
 
 
 ## Release History
+* 2016-11-24: v0.9.0 Added sortByDependencies
 * 2016-10-24: v0.5.0 Added afterMount
 * 2016-10-23: v0.4.0 Mayor update
     * Added examples
