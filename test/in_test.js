@@ -317,6 +317,7 @@ describe('in: Plugin loader', function(){
     });
 
     describe('∆ sortByDependencies', function(){
+
         it('should sort using dependencies', function(){
             var loader = new Plugin({
                 sortFilter: require('..').sortByDependencies
@@ -354,6 +355,47 @@ describe('in: Plugin loader', function(){
                 { id: 'repl',
                 priority: 0,
                 plugin: { dependencies: [ 'logger' ] }
+            } ];
+
+            var result = loader.sort(plugins);
+
+            assert.deepEqual(result, expected);
+        });
+
+        it.only('should sort modules with no declared dependencies', function(){
+            var loader = new Plugin({
+                sortFilter: require('..').sortByDependencies
+            });
+
+            var plugins = [
+              { id: 'authentication',
+                plugin: {}},
+              { id: 'logger',
+                plugin: {} },
+              { id: 'pubsub',
+                plugin: {} },
+              { id: 'persistence',
+                plugin: {} },
+              { id: 'repl',
+                plugin: {},
+            }];
+
+            var expected = [
+                { id: 'authentication',
+                    priority: 0,
+                  plugin: {}},
+                { id: 'logger',
+                    priority: 0,
+                  plugin: {} },
+                { id: 'pubsub',
+                    priority: 0,
+                  plugin: {} },
+                { id: 'persistence',
+                    priority: 0,
+                  plugin: {} },
+                { id: 'repl',
+                    priority: 0,
+                    plugin: {},
             } ];
 
             var result = loader.sort(plugins);
