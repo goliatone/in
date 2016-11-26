@@ -210,6 +210,27 @@ describe('in: Plugin loader', function(){
         });
     });
 
+    describe('∆ mountDirectory', function(){
+        it('should mount plugins in a given directory', function(done){
+            var loader = new Plugin({
+                basepath: __dirname
+            });
+            var paths = [
+                './fixtures/mountDirectory/plugins/authentication',
+                './fixtures/mountDirectory/plugins/logger.js',
+                './fixtures/mountDirectory/plugins/pubsub.js',
+                './fixtures/mountDirectory/plugins/repl.js'
+            ];
+
+            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+
+            loader.mountDirectory('./fixtures/mountDirectory/plugins').then((context)=>{
+                assert.ok(context);
+                done();
+            }).catch(done);
+        });
+    });
+
     describe('∆ mount', function(){
         it('should mount plugins in a given directory', function(done){
             var loader = new Plugin({
@@ -362,7 +383,7 @@ describe('in: Plugin loader', function(){
             assert.deepEqual(result, expected);
         });
 
-        it.only('should sort modules with no declared dependencies', function(){
+        it('should sort modules with no declared dependencies', function(){
             var loader = new Plugin({
                 sortFilter: require('..').sortByDependencies
             });
@@ -425,6 +446,26 @@ describe('in: Plugin loader', function(){
             loader.load(paths).then((plugins)=>{
                 var result = plugins.map((plugin) => plugin.id);
                 assert.deepEqual(result, expected);
+                done();
+            }).catch(done);
+        });
+
+        it.only('should mountDirectory', function(done){
+            var loader = new Plugin({
+                basepath: __dirname,
+                sortFilter: require('..').sortByDependencies,
+            });
+            var paths = [
+                './fixtures/mountDirectory/plugins/authentication',
+                './fixtures/mountDirectory/plugins/logger.js',
+                './fixtures/mountDirectory/plugins/pubsub.js',
+                './fixtures/mountDirectory/plugins/repl.js'
+            ];
+
+            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+
+            loader.mountDirectory('./fixtures/mountDirectory/plugins').then((context)=>{
+                assert.ok(context);
                 done();
             }).catch(done);
         });
