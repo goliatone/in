@@ -1,7 +1,7 @@
 {
   "name": "in",
   "description": "Plugin loader. Plays with Ware",
-  "version": "0.10.1",
+  "version": "0.10.2",
   "homepage": "https://github.com/goliatone/in",
   "author": {
     "name": "goliatone",
@@ -48,6 +48,7 @@
   "dependencies": {
     "gextend": "^0.1.6",
     "grunt-cli": "^0.1.13",
-    "multimatch": "^2.1.0"
+    "multimatch": "^2.1.0",
+    "verror": "^1.10.0"
   }
 }
