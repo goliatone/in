@@ -47,7 +47,6 @@
   ],
   "dependencies": {
     "gextend": "^0.1.6",
-    "grunt-cli": "^0.1.13",
     "multimatch": "^2.1.0",
     "verror": "^1.10.0"
   }
