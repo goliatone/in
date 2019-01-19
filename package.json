@@ -48,6 +48,7 @@
   "dependencies": {
     "gextend": "^0.1.6",
     "multimatch": "^2.1.0",
+    "noop-console": "^0.6.0",
     "verror": "^1.10.0"
   }
 }
