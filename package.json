@@ -23,7 +23,7 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 7.6"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha test/*_test.js",
