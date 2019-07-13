@@ -9,79 +9,73 @@ var path = require('path');
 var assert = require('chai').assert;
 var fixture = path.resolve.bind(path, __dirname, 'fixtures');
 
-describe('in: Plugin loader', function(){
+describe('in: Plugin loader', function() {
 
-    describe('load', function(){
+    describe('load', function() {
 
-        it('should expose DEFAULTS', function(){
+        it('should expose DEFAULTS', function() {
             assert.isObject(Plugin.DEFAULTS);
         });
 
-        it('should expose a "normalize" function', function(){
+        it('should expose a "normalize" function', function() {
             assert.isFunction(Plugin.normalize);
         });
 
-        describe('∆ normalize', function(){
-            it('should return an array if given an array', function(){
+        describe('∆ normalize', function() {
+            it('should return an array if given an array', function() {
                 assert.ok(Plugin.normalize([]), []);
             });
 
-            it('should return an array if given an object', function(){
+            it('should return an array if given an object', function() {
                 assert.ok(Plugin.normalize({}), []);
             });
 
-            it('should return a normalized array from a String', function(){
+            it('should return a normalized array from a String', function() {
                 var plugins = '/Users/application/plugins/authentication';
-                var expected = [
-                    {
-                        "id": "authentication",
-                        "path": "/Users/application/plugins/authentication",
-                        "config": {}
-                    }
-                ];
+                var expected = [{
+                    "id": "authentication",
+                    "path": "/Users/application/plugins/authentication",
+                    "config": {}
+                }];
 
                 assert.deepEqual(Plugin.normalize(plugins), expected);
             });
 
-            it('should normalize an array of paths', function(){
+            it('should normalize an array of paths', function() {
                 var plugins = ['/Users/application/plugins/authentication'];
 
-                var expected = [
-                    {
-                        "id": "authentication",
-                        "path": "/Users/application/plugins/authentication",
-                        "config": {}
-                    }
-                ];
+                var expected = [{
+                    "id": "authentication",
+                    "path": "/Users/application/plugins/authentication",
+                    "config": {}
+                }];
 
                 assert.deepEqual(Plugin.normalize(plugins), expected);
             });
 
-            it('should return an array from complex object keys', function(){
+            it('should return an array from complex object keys', function() {
                 var plugins = {
                     '/Users/application/plugins/authentication': { hash: 'sh1' }
                 };
 
-                var expected = [
-                    {
-                        "id": "authentication",
-                        "path": "/Users/application/plugins/authentication",
-                        "config": {
-                            "hash": "sh1"
-                        }
+                var expected = [{
+                    "id": "authentication",
+                    "path": "/Users/application/plugins/authentication",
+                    "config": {
+                        "hash": "sh1"
                     }
-                ];
+                }];
 
                 assert.deepEqual(Plugin.normalize(plugins), expected);
             });
         });
 
-        describe('∆ mountHandler', function(){
-            it('default mountHandler should call bean.init', function(){
+        describe('∆ mountHandler', function() {
+            it('default mountHandler should call bean.init', function() {
 
                 var bean = {
                     plugin: {
-                        init: function(context, config){}
+                        init: function(context, config) {}
                     }
                 };
                 var config = {};
@@ -95,10 +89,10 @@ describe('in: Plugin loader', function(){
                 assert.ok(spy.calledWith(config, context));
             });
 
-            it('default mountHandler should call bean.config if its a function', function(){
+            it('default mountHandler should call bean.config if its a function', function() {
 
                 var bean = {
-                    config: function(context, config){},
+                    config: function(context, config) {},
                     plugin: {}
                 };
                 var config = {};
@@ -112,11 +106,11 @@ describe('in: Plugin loader', function(){
                 assert.ok(spy.calledWith(bean.plugin, config, context));
             });
 
-            it('default mountHandler should call bean.config.mount if its a function', function(){
+            it('default mountHandler should call bean.config.mount if its a function', function() {
 
                 var bean = {
                     config: {
-                        mount: function(context, config){}
+                        mount: function(context, config) {}
                     },
                     plugin: {}
                 };
@@ -130,7 +124,7 @@ describe('in: Plugin loader', function(){
                 assert.ok(spy.calledOnce);
             });
 
-            it('default mountHandler should add a property in context with the plugin', function(){
+            it('default mountHandler should add a property in context with the plugin', function() {
 
                 var bean = {
                     id: 'plugin',
@@ -145,19 +139,19 @@ describe('in: Plugin loader', function(){
             });
         });
 
-        describe('∆ sortFilter', function(){
-            it('default sortFilter should sort based on negative priority', function(){
+        describe('∆ sortFilter', function() {
+            it('default sortFilter should sort based on negative priority', function() {
                 var loader = new Plugin();
 
                 var plugins = [
-                    {id: 'a', plugin: { priority: -100}},
-                    {id: 'c', plugin: { priority: 100}},
-                    {id: 'b', plugin:{}},
+                    { id: 'a', plugin: { priority: -100 } },
+                    { id: 'c', plugin: { priority: 100 } },
+                    { id: 'b', plugin: {} },
                 ];
                 var expected = [
-                    {id: 'a', plugin: { priority: -100}},
-                    {id: 'b' , plugin:{}},
-                    {id: 'c', plugin: { priority: 100}},
+                    { id: 'a', plugin: { priority: -100 } },
+                    { id: 'b', plugin: {} },
+                    { id: 'c', plugin: { priority: 100 } },
                 ];
 
                 loader.sort(plugins);
@@ -165,8 +159,8 @@ describe('in: Plugin loader', function(){
             });
         });
 
-        describe('∆ find', function(){
-            it('should list plugins in a given directory', function(done){
+        describe('∆ find', function() {
+            it('should list plugins in a given directory', function(done) {
                 var loader = new Plugin({
                     basepath: __dirname
                 });
@@ -178,7 +172,7 @@ describe('in: Plugin loader', function(){
                     'repl.js'
                 ];
 
-                loader.find('./fixtures/mountDirectory/plugins').then((plugins)=>{
+                loader.find('./fixtures/mountDirectory/plugins').then((plugins) => {
                     plugins = plugins.map((plugin) => require('path').basename(plugin));
                     assert.deepEqual(plugins, expected);
                     done()
@@ -186,8 +180,8 @@ describe('in: Plugin loader', function(){
             });
         });
 
-        describe('∆ filter', function(){
-            it('should list plugins in a given directory', function(done){
+        describe('∆ filter', function() {
+            it('should list plugins in a given directory', function(done) {
                 var loader = new Plugin({
                     basepath: __dirname
                 });
@@ -202,7 +196,7 @@ describe('in: Plugin loader', function(){
                     'authentication',
                 ];
 
-                loader.filter(paths, ['**', '!*.js']).then((plugins)=>{
+                loader.filter(paths, ['**', '!*.js']).then((plugins) => {
                     assert.deepEqual(plugins, expected);
                     done()
                 }).catch(done);
@@ -210,8 +204,8 @@ describe('in: Plugin loader', function(){
         });
     });
 
-    describe('∆ mountDirectory', function(){
-        it('should mount plugins in a given directory', function(done){
+    describe('∆ mountDirectory', function() {
+        it('should mount plugins in a given directory', function(done) {
             var loader = new Plugin({
                 basepath: __dirname
             });
@@ -224,15 +218,15 @@ describe('in: Plugin loader', function(){
 
             var expected = ['logger', 'repl', 'pubsub', 'authentication'];
 
-            loader.mountDirectory('./fixtures/mountDirectory/plugins').then((context)=>{
+            loader.mountDirectory('./fixtures/mountDirectory/plugins').then((context) => {
                 assert.ok(context);
                 done();
             }).catch(done);
         });
     });
 
-    describe('∆ mount', function(){
-        it('should mount plugins in a given directory', function(done){
+    describe('∆ mount', function() {
+        it('should mount plugins in a given directory', function(done) {
             var loader = new Plugin({
                 basepath: __dirname
             });
@@ -245,20 +239,20 @@ describe('in: Plugin loader', function(){
 
             var expected = ['logger', 'repl', 'pubsub', 'authentication'];
 
-            loader.load(paths).then((plugins)=>{
-                loader.mount(plugins).then((_)=>{
+            loader.load(paths).then((plugins) => {
+                loader.mount(plugins).then((_) => {
                     var res = [];
-                    plugins.map((plugin)=> res.push(plugin.id));
+                    plugins.map((plugin) => res.push(plugin.id));
                     assert.deepEqual(res, expected);
                     done()
                 }).catch(done);
             });
         });
 
-        it('should mount plugins in a given directory using mountHandler', function(done){
+        it('should mount plugins in a given directory using mountHandler', function(done) {
             var loader = new Plugin({
                 basepath: __dirname,
-                mountHandler: function _mount(bean, context){
+                mountHandler: function _mount(bean, context) {
                     return bean.plugin;
                 },
             });
@@ -271,22 +265,22 @@ describe('in: Plugin loader', function(){
 
             var expected = ['logger', 'repl', 'pubsub', 'authentication'];
 
-            loader.load(paths).then((plugins)=>{
-                loader.mount(plugins).then((_)=>{
+            loader.load(paths).then((plugins) => {
+                loader.mount(plugins).then((_) => {
                     var res = [];
-                    plugins.map((plugin)=> res.push(plugin.id));
+                    plugins.map((plugin) => res.push(plugin.id));
                     assert.deepEqual(expected, res);
                     done()
                 }).catch(done);
             }).catch(done);
         });
 
-        it('should call afterMount', function(done){
+        it('should call afterMount', function(done) {
             var spy = sinon.spy();
 
             var loader = new Plugin({
                 basepath: __dirname,
-                mountHandler: function _mount(bean, context){
+                mountHandler: function _mount(bean, context) {
                     return bean.plugin;
                 },
                 afterMount: spy
@@ -299,15 +293,15 @@ describe('in: Plugin loader', function(){
                 './fixtures/mountDirectory/plugins/repl.js'
             ];
 
-            loader.load(paths).then((plugins)=>{
-                loader.mount(plugins).then((_)=>{
+            loader.load(paths).then((plugins) => {
+                loader.mount(plugins).then((_) => {
                     assert.ok(spy.calledOnce);
                     done();
                 }).catch(done);
             }).catch(done);
         });
 
-        it('should call afterMount passed in options', function(done){
+        it('should call afterMount passed in options', function(done) {
             var spy = sinon.spy();
 
             var options = {
@@ -316,7 +310,7 @@ describe('in: Plugin loader', function(){
 
             var loader = new Plugin({
                 basepath: __dirname,
-                mountHandler: function _mount(bean, context){
+                mountHandler: function _mount(bean, context) {
                     return bean.plugin;
                 }
             });
@@ -328,8 +322,8 @@ describe('in: Plugin loader', function(){
                 './fixtures/mountDirectory/plugins/repl.js'
             ];
 
-            loader.load(paths).then((plugins)=>{
-                loader.mount(plugins, options).then((_)=>{
+            loader.load(paths).then((plugins) => {
+                loader.mount(plugins, options).then((_) => {
                     assert.ok(spy.calledOnce);
                     done();
                 }).catch(done);
@@ -337,98 +331,135 @@ describe('in: Plugin loader', function(){
         });
     });
 
-    describe('∆ sortByDependencies', function(){
+    describe('∆ sortByDependencies', function() {
 
-        it('should sort using dependencies', function(){
+        it('should sort using dependencies', function() {
             var loader = new Plugin({
                 sortFilter: require('..').sortByDependencies
             });
-            var plugins = [ { id: 'authentication',
-                priority: 500,
-                plugin: {dependencies: ['logger', 'persistence']}
+            var plugins = [{
+                    id: 'authentication',
+                    priority: 500,
+                    plugin: { dependencies: ['logger', 'persistence'] }
                 },
-              { id: 'logger',
-                priority: -100,
-                plugin: { dependencies: []} },
-              { id: 'pubsub',
-                priority: 0,
-                plugin: { dependencies: ['logger']} },
-              { id: 'persistence',
-                priority: 0,
-                plugin: { dependencies: ['logger'] } },
-              { id: 'repl',
-                priority: 0,
-                plugin: { dependencies: ['logger']}
-                } ];
+                {
+                    id: 'logger',
+                    priority: -100,
+                    plugin: { dependencies: [] }
+                },
+                {
+                    id: 'pubsub',
+                    priority: 0,
+                    plugin: { dependencies: ['logger'] }
+                },
+                {
+                    id: 'persistence',
+                    priority: 0,
+                    plugin: { dependencies: ['logger'] }
+                },
+                {
+                    id: 'repl',
+                    priority: 0,
+                    plugin: { dependencies: ['logger'] }
+                }
+            ];
 
-            var expected = [ { id: 'logger',
-                priority: 5,
-                plugin: { dependencies: [] }},
-                { id: 'persistence',
-                priority: 1,
-                plugin: { dependencies: [ 'logger' ] }},
-                { id: 'authentication',
-                priority: 0,
-                plugin: { dependencies: [ 'logger', 'persistence' ] }},
-                { id: 'pubsub',
-                priority: 0,
-                plugin: { dependencies: [ 'logger' ] }},
-                { id: 'repl',
-                priority: 0,
-                plugin: { dependencies: [ 'logger' ] }
-            } ];
+            var expected = [{
+                    id: 'logger',
+                    priority: 5,
+                    plugin: { dependencies: [] }
+                },
+                {
+                    id: 'persistence',
+                    priority: 1,
+                    plugin: { dependencies: ['logger'] }
+                },
+                {
+                    id: 'authentication',
+                    priority: 0,
+                    plugin: { dependencies: ['logger', 'persistence'] }
+                },
+                {
+                    id: 'pubsub',
+                    priority: 0,
+                    plugin: { dependencies: ['logger'] }
+                },
+                {
+                    id: 'repl',
+                    priority: 0,
+                    plugin: { dependencies: ['logger'] }
+                }
+            ];
 
             var result = loader.sort(plugins);
 
             assert.deepEqual(result, expected);
         });
 
-        it('should sort modules with no declared dependencies', function(){
+        it('should sort modules with no declared dependencies', function() {
             var loader = new Plugin({
                 sortFilter: require('..').sortByDependencies
             });
 
-            var plugins = [
-              { id: 'authentication',
-                plugin: {}},
-              { id: 'logger',
-                plugin: {} },
-              { id: 'pubsub',
-                plugin: {} },
-              { id: 'persistence',
-                plugin: {} },
-              { id: 'repl',
-                plugin: {},
-            }];
+            var plugins = [{
+                    id: 'authentication',
+                    plugin: {}
+                },
+                {
+                    id: 'logger',
+                    plugin: {}
+                },
+                {
+                    id: 'pubsub',
+                    plugin: {}
+                },
+                {
+                    id: 'persistence',
+                    plugin: {}
+                },
+                {
+                    id: 'repl',
+                    plugin: {},
+                }
+            ];
 
-            var expected = [
-                { id: 'authentication',
+            var expected = [{
+                    id: 'authentication',
                     priority: 0,
-                  plugin: {}},
-                { id: 'logger',
+                    plugin: {}
+                },
+                {
+                    id: 'logger',
                     priority: 0,
-                  plugin: {} },
-                { id: 'pubsub',
+                    plugin: {}
+                },
+                {
+                    id: 'pubsub',
                     priority: 0,
-                  plugin: {} },
-                { id: 'persistence',
+                    plugin: {}
+                },
+                {
+                    id: 'persistence',
                     priority: 0,
-                  plugin: {} },
-                { id: 'repl',
+                    plugin: {}
+                },
+                {
+                    id: 'repl',
                     priority: 0,
                     plugin: {},
-            } ];
+                }
+            ];
 
             var result = loader.sort(plugins);
 
             assert.deepEqual(result, expected);
         });
 
-        it('should order paths based on dependencies', function(done){
+        it('should order paths based on dependencies', function(done) {
             var loader = new Plugin({
                 basepath: __dirname,
                 sortFilter: require('..').sortByDependencies,
-                mountHandler: function _mount(bean, context){
+                mountHandler: function _mount(bean, context) {
                     return bean.plugin;
                 }
             });
@@ -443,14 +474,14 @@ describe('in: Plugin loader', function(){
 
             var expected = ['logger', 'persistence', 'repl', 'pubsub', 'authentication'];
 
-            loader.load(paths).then((plugins)=>{
+            loader.load(paths).then((plugins) => {
                 var result = plugins.map((plugin) => plugin.id);
                 assert.deepEqual(result, expected);
                 done();
             }).catch(done);
         });
 
-        it.only('should mountDirectory', function(done){
+        it('should mountDirectory', function(done) {
             var loader = new Plugin({
                 basepath: __dirname,
                 sortFilter: require('..').sortByDependencies,
@@ -464,7 +495,7 @@ describe('in: Plugin loader', function(){
 
             var expected = ['logger', 'repl', 'pubsub', 'authentication'];
 
-            loader.mountDirectory('./fixtures/mountDirectory/plugins').then((context)=>{
+            loader.mountDirectory('./fixtures/mountDirectory/plugins').then(context => {
                 assert.ok(context);
                 done();
             }).catch(done);
