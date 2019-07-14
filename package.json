@@ -26,8 +26,8 @@
     "node": ">= 7.6"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/*_test.js",
-    "devtest": "./node_modules/mocha/bin/mocha test/*_test.js -G -w --require co-mocha --reporter spec --slow 500",
+    "test": "mocha test/*_test.js",
+    "devtest": "mocha test/*_test.js -G -w --require co-mocha --reporter spec --slow 500",
     "patch": "npm version patch && npm publish && git push --tags && git push origin master",
     "minor": "npm version minor && npm publish && npm version patch && git push --tags && git push origin master"
   },
