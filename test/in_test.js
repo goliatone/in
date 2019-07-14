@@ -456,7 +456,7 @@ describe('in: Plugin loader', function() {
         });
 
         it('should order paths based on dependencies', function(done) {
-            var loader = new Plugin({
+            const loader = new Plugin({
                 basepath: __dirname,
                 sortFilter: require('..').sortByDependencies,
                 mountHandler: function _mount(bean, context) {
@@ -464,7 +464,7 @@ describe('in: Plugin loader', function() {
                 }
             });
 
-            var paths = [
+            const paths = [
                 './fixtures/sortByDependencies/plugins/repl.js',
                 './fixtures/sortByDependencies/plugins/logger.js',
                 './fixtures/sortByDependencies/plugins/pubsub.js',
@@ -472,10 +472,10 @@ describe('in: Plugin loader', function() {
                 './fixtures/sortByDependencies/plugins/persistence.js'
             ];
 
-            var expected = ['logger', 'persistence', 'repl', 'pubsub', 'authentication'];
+            const expected = ['logger', 'persistence', 'repl', 'pubsub', 'authentication'];
 
-            loader.load(paths).then((plugins) => {
-                var result = plugins.map((plugin) => plugin.id);
+            loader.load(paths).then(plugins => {
+                const result = plugins.map(plugin => plugin.id);
                 assert.deepEqual(result, expected);
                 done();
             }).catch(done);
@@ -484,18 +484,12 @@ describe('in: Plugin loader', function() {
         it('should mountDirectory', function(done) {
             var loader = new Plugin({
                 basepath: __dirname,
-                sortFilter: require('..').sortByDependencies,
+                sortFilter: require('..').sortByDependencies
             });
-            var paths = [
-                './fixtures/mountDirectory/plugins/authentication',
-                './fixtures/mountDirectory/plugins/logger.js',
-                './fixtures/mountDirectory/plugins/pubsub.js',
-                './fixtures/mountDirectory/plugins/repl.js'
-            ];
 
-            var expected = ['logger', 'repl', 'pubsub', 'authentication'];
+            const pluginsPath = './fixtures/sortByDependencies/plugins';
 
-            loader.mountDirectory('./fixtures/mountDirectory/plugins').then(context => {
+            loader.mountDirectory(pluginsPath).then(context => {
                 assert.ok(context);
                 done();
             }).catch(done);
