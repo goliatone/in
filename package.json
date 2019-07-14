@@ -47,7 +47,7 @@
   ],
   "dependencies": {
     "gextend": "^0.3.*",
-    "multimatch": "^2.1.0",
+    "multimatch": "^4.0.0",
     "noop-console": "^0.7.*",
     "verror": "^1.10.0"
   }
