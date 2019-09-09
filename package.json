@@ -1,7 +1,7 @@
 {
   "name": "in",
   "description": "Plugin loader. Plays with Ware",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "homepage": "https://github.com/goliatone/in",
   "author": {
     "name": "goliatone",
@@ -32,13 +32,13 @@
     "minor": "npm version minor && npm publish && npm version patch && git push --tags && git push origin master"
   },
   "devDependencies": {
-    "mocha": "^1.18.2",
-    "mocha-clean": "^0.4.0",
-    "mocha-sinon": "^1.1.4",
-    "sinon": "^1.12.2",
-    "assert-dir-equal": "^1.0.1",
-    "co-mocha": "^1.1.0",
-    "chai": "^2.2.0"
+    "assert-dir-equal": "^1.1.0",
+    "chai": "^4.2.0",
+    "co-mocha": "^1.2.2",
+    "mocha": "^1.21.5",
+    "mocha-clean": "^1.0.0",
+    "mocha-sinon": "^2.1.0",
+    "sinon": "^7.4.1"
   },
   "keywords": [
     "plugins",
