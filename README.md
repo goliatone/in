@@ -33,18 +33,21 @@ Generic plugin loader facility.
 
 
 ## Getting Started
+
 Install the module with: `npm install in`
 
-```javascript
-var PluginLoader = require('in');
+```js
+const PluginLoader = require('in');
 ```
 
 A plugin should expose a `init` function.
+
 ```js
 module.exports.init = function(app, config){};
 ```
 
 A module can expose a `priority` value:
+
 ```js
 module.exports.priority = 5000;
 ```
@@ -73,9 +76,11 @@ A plugin is nothing more than a regular Node module. By default, we expect plugi
 * [afterMount](#aftermountcontext)
 
 ### context
+
 This is where all plugins will be mounted. This would normally be your application instance.
 
 ### mountDirectory(directory,options,context)
+
 It will mount all plugins found in directory into the provided context.
 
 This is in effect applying [find](#finddirectory), [filter](#filterplugins), [load](#loadplugins-options), [sort](#sortplugins), and [mount](#mount) in that order.
@@ -86,10 +91,13 @@ Scans a directory for files and directories, returning a list of absolute paths 
 It `target` is not an absolute path, we resolve it against `basepath`.
 
 ### sort(plugins)
+
 Sorts an array of plugins after they have been loaded. By default it uses `sortFilter`:
 
 #### sortFilter
+
 It will looks for `module.exports.priority` and sort based on that:
+
 ```js
 function _sortFilter(plugins){
 	function filter(a, b) {
@@ -110,18 +118,21 @@ const loader = new PluginLoader({
     sortFilter: require('in').sortByDependencies
 });
 ```
+
 Modules should expose a `dependencies` array listing the ids of depended modules.
 
-```javascript
+```js
 module.exports.dependencies = ['logger', 'persistence'];
 ```
 
 ### normalize(plugins)
+
 When we call load we apply the `normalize` function which will ensures that `plugins` can be any of the following:
 
 #### String
+
 ```js
-var plugins = '/Users/application/plugins/authentication';
+const plugins = '/Users/application/plugins/authentication';
 ```
 
 Output after calling `normalize`:
@@ -137,8 +148,9 @@ Output after calling `normalize`:
 ```
 
 #### Array
+
 ```js
-var plugins = ['/Users/application/plugins/authentication'];
+const plugins = ['/Users/application/plugins/authentication'];
 ```
 
 Output after calling `normalize`:
@@ -154,8 +166,9 @@ Output after calling `normalize`:
 ```
 
 #### Object
+
 ```js
-var plugins = {
+const plugins = {
     '/Users/application/plugins/authentication': { hash: 'sh1' }
 };
 ```
@@ -175,8 +188,9 @@ Output after calling `normalize`:
 ```
 
 #### Mixed
+
 ```js
-var plugins = [
+const plugins = [
     {'/Users/application/plugins/authentication':{ hash: 'sh1' }},
     'debug'
 ];
@@ -200,16 +214,19 @@ Output after calling `normalize`:
     }
 ]
 ```
+
 ### filter(plugins)
 
 Public: Apply `minimatch` patterns against `paths`, an array of paths. The default pattern is `['**', '!node_modules', '!.git']`
 Returns a `Promise` which once resolved will contain an Array of filtered paths.
 
 ### load(plugins, options={})
+
 Given a list of plugins, create a plugin object with metadata and the result of `require`ing the module.
 
 We create a bean per plugin:
-```javascript
+
+```js
 {
     id: 'logger',
     path: '/Users/in/examples/plugins/logger.js',
@@ -220,10 +237,13 @@ We create a bean per plugin:
 ```
 
 ### mount
+
 Makes plugins available to the provided context by calling `mountHandler` to previously loaded plugins.
 
 ### mountHandler
+
 Adds a `plugin` to the provided `context`.
+
 ```js
 function _mount(bean, context, config={}){
 	config = extend({}, bean.config, config);
@@ -236,9 +256,11 @@ function _mount(bean, context, config={}){
 ```
 
 ### afterMount(context)
+
 Function that will be called right after `mount`
 
 ## Examples
+
 Look at the [examples][examples] directory. Run it with `node examples/index.js`.
 
 Directory structure:
@@ -255,8 +277,9 @@ Directory structure:
 const PluginManager = require('..');
 const EventEmitter = require('events');
 
-var app = new EventEmitter();
-app.on('plugins.ready', function(){
+const app = new EventEmitter();
+
+app.on('plugins.ready', _ => {
     app.logger.info('Application plugins loaded');
 });
 
@@ -273,7 +296,7 @@ manager.mountDirectory('./plugins')
 `logger.js`:
 
 ```js
-module.exports.init = function(app, config){
+module.exports.init = function(app, config) {
     app.logger = console;
     app.logger.info('Plugin logger loaded!');
 };
@@ -282,8 +305,9 @@ module.exports.priority = -100;
 ```
 
 `repl.js`:
+
 ```js
-module.exports.init = function(app, config){
+module.exports.init = function(app, config) {
 
     app.repl = {
         context: {app}
@@ -295,8 +319,9 @@ module.exports.init = function(app, config){
 ```
 
 `pubsub.js`:
+
 ```js
-module.exports.init = function(app, config){
+module.exports.init = function(app, config) {
     app.pubsub = {
         publibsh: function(type, event){
             app.logger.warn('publish: %s. payload: %s', type, event);
@@ -310,8 +335,9 @@ module.exports.init = function(app, config){
 ```
 
 `authentication/index.js`:
+
 ```js
-module.exports.init = function(app, config){
+module.exports.init = function(app, config) {
     app.auth = {
         check: function(){}
     };
@@ -334,11 +360,14 @@ Application plugins loaded
 
 ## Release History
 
+* 2019-09-08: v0.17.0 Update version of dependencies
+    * Export `normalizePath` from `lib/normalizeArguments.js`
+    * Export `getIdFromPath` from `lib/normalizeArguments.js`
 * 2019-07-13: v0.16.0 Remove synchronous file access
 * 2019-07-13: v0.15.0 Update version of dependencies
 * 2016-11-24: v0.9.0  Added `sortByDependencies`
 * 2016-11-18: v0.8.0  Update mount to take in `afterMount` in options
-* 2016-11-14: v0.7.0  normalizePath use basepath from argument
+* 2016-11-14: v0.7.0  `normalizePath` use basepath from argument
 * 2016-11-13: v0.6.0  Refactoring mount
 * 2016-10-24: v0.5.0  Added `afterMount`
 * 2016-10-23: v0.4.0  Big update
