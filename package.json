@@ -46,9 +46,9 @@
     "plugin"
   ],
   "dependencies": {
-    "gextend": "^0.3.*",
+    "gextend": "^0.6.0",
     "multimatch": "^4.0.0",
-    "noop-console": "^0.7.*",
+    "noop-console": "^0.8.0",
     "verror": "^1.10.0"
   }
 }
