@@ -360,6 +360,7 @@ Application plugins loaded
 
 ## Release History
 
+* 2020-06-04: v0.18.0 Add support for sub directories in plugins target dir
 * 2019-09-08: v0.17.0 Update version of dependencies
     * Export `normalizePath` from `lib/normalizeArguments.js`
     * Export `getIdFromPath` from `lib/normalizeArguments.js`
