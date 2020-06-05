@@ -33,9 +33,9 @@ describe('in: Plugin loader', function() {
             it('should return a normalized array from a String', function() {
                 var plugins = '/Users/application/plugins/authentication';
                 var expected = [{
-                    "id": "authentication",
-                    "path": "/Users/application/plugins/authentication",
-                    "config": {}
+                    'id': 'authentication',
+                    'path': '/Users/application/plugins/authentication',
+                    'config': {}
                 }];
 
                 assert.deepEqual(Plugin.normalize(plugins), expected);
@@ -45,9 +45,9 @@ describe('in: Plugin loader', function() {
                 var plugins = ['/Users/application/plugins/authentication'];
 
                 var expected = [{
-                    "id": "authentication",
-                    "path": "/Users/application/plugins/authentication",
-                    "config": {}
+                    'id': 'authentication',
+                    'path': '/Users/application/plugins/authentication',
+                    'config': {}
                 }];
 
                 assert.deepEqual(Plugin.normalize(plugins), expected);
@@ -59,10 +59,10 @@ describe('in: Plugin loader', function() {
                 };
 
                 var expected = [{
-                    "id": "authentication",
-                    "path": "/Users/application/plugins/authentication",
-                    "config": {
-                        "hash": "sh1"
+                    'id': 'authentication',
+                    'path': '/Users/application/plugins/authentication',
+                    'config': {
+                        'hash': "sh1"
                     }
                 }];
 
