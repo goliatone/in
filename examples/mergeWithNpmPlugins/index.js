@@ -1,32 +1,33 @@
+'use strict';
+
 process.env.DEBUG = '*';
 
 const PluginLoader = require('../..');
 const EventEmitter = require('events');
 
 
-var app = new EventEmitter();
+const app = new EventEmitter();
+
 app.name = 'App';
-app.on('plugins.ready', function(){
-    app.logger.info('Application plugins loaded');
-    app.debug('Application debug stuffs');
+app.on('plugins.ready', _ => {
+    this.logger.info('Application plugins loaded');
+    this.debug('Application debug stuffs');
 });
 
 const loader = new PluginLoader({
     context: app,
     basepath: __dirname,
-    afterMount: function(context){
+    afterMount: function(context) {
         context.emit('plugins.ready');
     }
 });
 
-var plugins = [
-    {
-        'debug': function(plugin, context, options){
-            console.log('Plugin debug loaded!');
-            context.debug = plugin('in-load');
-        }
+const plugins = [{
+    'debug': function(plugin, context, options) {
+        console.log('Plugin debug loaded!');
+        context.debug = plugin('in-load');
     }
-];
+}];
 
-loader.mountDirectory('./plugins', {plugins})
+loader.mountDirectory('./plugins', { plugins })
     .catch(console.error);
